@@ -2,32 +2,43 @@ package gridrunner;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
 
 import java.util.List;
 
-public class Player extends Circle {
+public class Player extends Polygon {
 
     private Translate position;
     private double centerX, centerY, radius;
 
-    public Player ( double radius, double positionX, double positionY, Color fillColor, Color strokeColor ) {
-        super ( radius, fillColor );
-        super.setStroke ( strokeColor );
-        super.setStrokeWidth ( radius * 0.03 );
+    public Player(double radius, double positionX, double positionY,
+                  Color fillColor, Color strokeColor) {
+
+        super(octagonPoints(radius));
+
+        this.setFill(fillColor);
+        this.setStroke(strokeColor);
+        this.setStrokeWidth(radius * 0.03);
 
         this.centerX = positionX + radius;
         this.centerY = positionY + radius;
         this.radius  = radius;
 
-        this.position = new Translate ( this.centerX, this.centerY);
-
-        super.getTransforms ( ).addAll (
-                this.position
-        );
+        this.position = new Translate(this.centerX, this.centerY);
+        this.getTransforms().addAll(this.position);
     }
 
+    private static double[] octagonPoints(double radius) {
+        double[] pts = new double[16];
+        for (int i = 0; i < 8; i++) {
+            double angle = -Math.PI / 2 + i * (Math.PI / 4);
+            pts[i * 2]     = radius * Math.cos(angle);
+            pts[i * 2 + 1] = radius * Math.sin(angle);
+        }
+        return pts;
+    }
 
     public void update(double dt, double speed, Input input, List<Rectangle> walls) {
         double dx = 0;
