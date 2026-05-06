@@ -6,7 +6,7 @@ public class Constants {
     public static final String[] MAP = {
             "####################",
             "#SE.......B........#",
-            "#.........B........#",
+            "#.........B.....R..#",
             "#...########.......#",
             "#...#..............#",
             "#...#..............#",
@@ -14,7 +14,7 @@ public class Constants {
             "#..................#",
             "#..................#",
             "#.......########...#",
-            "#.......#..........#",
+            "#...R...#..........#",
             "#.......#..........#",
             "#.......########...#",
             "#................G.#",
@@ -45,6 +45,11 @@ public class Constants {
     public static final Color  ENEMY_STROKE_COLOR = Color.web("#aa2200");
     public static final double ENEMY_SPEED        = 120;
     public static final double ENEMY_SIZE         = Constants.TILE_SIZE * 0.75;
+
+    // Spinner settings
+    public static final Color  SPINNER_FILL_COLOR     = Color.web("#aa44cc");
+    public static final Color  SPINNER_STROKE_COLOR   = Color.web("#882299");
+    public static final double SPINNER_ROTATION_SPEED = 50; // stepeni po sekundi
 
     public static final double PLAYER_RADIUS = Constants.TILE_SIZE * 0.75 / 2;
     public static final double PLAYER_SPEED  = 180; // pixels per second

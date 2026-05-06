@@ -66,6 +66,13 @@ public class Main extends Application {
                         player.resetPosition();
                     }
                 }
+
+                for (Spinner spinner : level.getSpinners()) {
+                    spinner.update(dt);
+                    if (spinner.overlapsPlayer(player)) {
+                        player.resetPosition();
+                    }
+                }
             }
         };
         timer.start ( );
