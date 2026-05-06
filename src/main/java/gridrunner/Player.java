@@ -42,7 +42,7 @@ public class Player extends Polygon {
         return pts;
     }
 
-    public void update(double dt, double speed, Input input, List<Rectangle> walls) {
+    public void update(double dt, double speed, Input input, List<Rectangle> walls, List<BlinkingWall> blinkingWalls) {
         double dx = 0;
         double dy = 0;
 
@@ -60,16 +60,24 @@ public class Player extends Polygon {
         }
 
         // Resolve each axis independently to allow sliding along walls
-        this.moveAndResolve ( dx, 0, walls );
-        this.moveAndResolve ( 0, dy, walls );
+        this.moveAndResolve ( dx, 0, walls, blinkingWalls);
+        this.moveAndResolve ( 0, dy, walls, blinkingWalls);
     }
 
-    private void moveAndResolve ( double dx, double dy, List<Rectangle> walls ) {
+    private void moveAndResolve ( double dx, double dy, List<Rectangle> walls, List<BlinkingWall> blinkingWalls) {
         this.centerX += dx;
         this.centerY += dy;
         boolean clear = true;
         for ( Rectangle wall : walls ) {
             if ( !overlaps ( wall ) ) {
+                continue;
+            }
+
+            clear = false;
+        }
+
+        for (BlinkingWall bwall : blinkingWalls) {
+            if (!bwall.isSolid() || !overlaps (bwall)){
                 continue;
             }
 

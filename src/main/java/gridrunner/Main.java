@@ -58,7 +58,7 @@ public class Main extends Application {
                     return;
                 }
 
-                player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls ( ) );
+                player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls(), level.getBlinkingWalls() );
             }
         };
         timer.start ( );

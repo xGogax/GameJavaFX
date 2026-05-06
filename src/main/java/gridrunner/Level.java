@@ -13,12 +13,14 @@ import java.util.List;
 public class Level extends Group {
 
     private List<Rectangle> walls;
+    private List<BlinkingWall> blinkingWalls;
     private Rectangle goal;
     public double startX, startY;
     private Rectangle start;
 
     public Level ( String map[], double tileSize, Color wallFillColor, Color wallStrokeColor, Color startColor, Color goalColor ) {
         this.walls = new ArrayList<> ( );
+        this.blinkingWalls = new ArrayList<>();
 
         for ( int row = 0; row < map.length; row++ ) {
             for ( int column = 0; column < map[row].length ( ); column++ ) {
@@ -38,6 +40,18 @@ public class Level extends Group {
                         this.walls.add ( wall );
 
                         super.getChildren ( ).add ( wall );
+
+                        break;
+                    }
+
+                    case 'B': {
+                        BlinkingWall bw = new BlinkingWall(
+                                positionX, positionY, tileSize,
+                                Constants.BLINK_WALL_FILL_COLOR, Constants.BLINK_WALL_STROKE_COLOR,
+                                Constants.BLINK_VISIBLE_SECONDS, Constants.BLINK_HIDDEN_SECONDS
+                        );
+                        this.blinkingWalls.add(bw);
+                        super.getChildren().add(bw);
 
                         break;
                     }
@@ -73,6 +87,7 @@ public class Level extends Group {
     }
 
     public List<Rectangle> getWalls ( ) { return Collections.unmodifiableList ( this.walls ); }
+    public List<BlinkingWall> getBlinkingWalls () { return Collections.unmodifiableList ( this.blinkingWalls ); }
 
     public Rectangle getGoal ( ) { return this.goal; }
 
