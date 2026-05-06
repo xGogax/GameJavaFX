@@ -4,6 +4,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -34,7 +36,7 @@ public class Main extends Application {
         root.getChildren ( ).add ( player );
 
         Scene scene = new Scene ( root, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT );
-        scene.setFill ( Constants.BACKGROUND_COLOR );
+        scene.setFill(new ImagePattern(new Image(Main.class.getResourceAsStream("ground.jpg"))));
 
         scene.setOnKeyPressed ( input::keyPressed );
         scene.setOnKeyReleased ( input::keyReleased );
