@@ -39,4 +39,6 @@ public class Input {
     public boolean right ( ) {
         return this.isDown ( KeyCode.RIGHT ) || this.isDown ( KeyCode.D );
     }
+
+    public boolean R ( ) { return this.isDown ( KeyCode.R ); }
 }

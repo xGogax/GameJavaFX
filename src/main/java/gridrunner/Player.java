@@ -12,6 +12,7 @@ public class Player extends Polygon {
 
     private Translate position;
     private double centerX, centerY, radius;
+    private double startX, startY;
 
     public Player(double radius, double positionX, double positionY,
                   Color fillColor, Color strokeColor) {
@@ -24,6 +25,7 @@ public class Player extends Polygon {
 
         this.centerX = positionX + radius;
         this.centerY = positionY + radius;
+        this.startX = this.centerX; this.startY = this.centerY;
         this.radius  = radius;
 
         this.position = new Translate(this.centerX, this.centerY);
@@ -48,6 +50,7 @@ public class Player extends Polygon {
         if ( input.right ( ) ) { dx += speed * dt; }
         if ( input.up ( ) )    { dy -= speed * dt; }
         if ( input.down ( ) )  { dy += speed * dt; }
+        if ( input.R ( ) )     { this.centerX = this.startX; this.centerY = this.startY; }
 
         // Keep consistent speed on diagonals
         if ( dx != 0 && dy != 0 ) {
