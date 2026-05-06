@@ -42,6 +42,13 @@ public class Player extends Polygon {
         return pts;
     }
 
+    public void resetPosition() {
+        this.centerX = this.startX;
+        this.centerY = this.startY;
+        this.position.setX(this.centerX);
+        this.position.setY(this.centerY);
+    }
+
     public void update(double dt, double speed, Input input, List<Rectangle> walls, List<BlinkingWall> blinkingWalls) {
         double dx = 0;
         double dy = 0;
@@ -50,7 +57,7 @@ public class Player extends Polygon {
         if ( input.right ( ) ) { dx += speed * dt; }
         if ( input.up ( ) )    { dy -= speed * dt; }
         if ( input.down ( ) )  { dy += speed * dt; }
-        if ( input.R ( ) )     { this.centerX = this.startX; this.centerY = this.startY; }
+        if ( input.R ( ) )     { resetPosition(); }
 
         // Keep consistent speed on diagonals
         if ( dx != 0 && dy != 0 ) {
@@ -125,4 +132,8 @@ public class Player extends Polygon {
 
         return horizontal && vertical;
     }
+
+    public double getCenterX() { return this.centerX; }
+    public double getCenterY() { return this.centerY; }
+    public double getRadius()  { return this.radius;  }
 }

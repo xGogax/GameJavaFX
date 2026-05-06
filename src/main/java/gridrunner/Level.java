@@ -14,6 +14,7 @@ public class Level extends Group {
 
     private List<Rectangle> walls;
     private List<BlinkingWall> blinkingWalls;
+    private List<Enemy> enemies = new ArrayList<>();
     private Rectangle goal;
     public double startX, startY;
     private Rectangle start;
@@ -56,6 +57,20 @@ public class Level extends Group {
                         break;
                     }
 
+                    case 'E': {
+                        Enemy enemy = new Enemy(
+                                positionX + (Constants.TILE_SIZE - Constants.ENEMY_SIZE) / 2,
+                                positionY + (Constants.TILE_SIZE - Constants.ENEMY_SIZE) / 2,
+                                Constants.ENEMY_SIZE,
+                                Constants.ENEMY_SPEED,
+                                Constants.ENEMY_FILL_COLOR,
+                                Constants.ENEMY_STROKE_COLOR
+                        );
+                        this.enemies.add(enemy);
+                        super.getChildren().add(enemy);
+                        break;
+                    }
+
                     case 'S': {
                         this.start = new Rectangle ( tileSize, tileSize );
                         this.start.getTransforms ( ).addAll (
@@ -88,6 +103,7 @@ public class Level extends Group {
 
     public List<Rectangle> getWalls ( ) { return Collections.unmodifiableList ( this.walls ); }
     public List<BlinkingWall> getBlinkingWalls () { return Collections.unmodifiableList ( this.blinkingWalls ); }
+    public List<Enemy> getEnemies() { return Collections.unmodifiableList(this.enemies); }
 
     public Rectangle getGoal ( ) { return this.goal; }
 

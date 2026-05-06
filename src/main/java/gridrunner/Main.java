@@ -59,6 +59,13 @@ public class Main extends Application {
                 }
 
                 player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls(), level.getBlinkingWalls() );
+
+                for (Enemy enemy : level.getEnemies()) {
+                    enemy.update(dt, level.getWalls());
+                    if (enemy.overlapsPlayer(player)) {
+                        player.resetPosition();
+                    }
+                }
             }
         };
         timer.start ( );
