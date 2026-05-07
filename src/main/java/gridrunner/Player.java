@@ -139,8 +139,7 @@ public class Player extends Polygon {
     public void loseLife() {
         if (this.lives > 0) {
             this.lives--;
-            this.centerX = this.startX;
-            this.centerY = this.startY;
+            resetPosition();
         }
     }
 

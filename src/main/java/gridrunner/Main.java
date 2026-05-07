@@ -50,6 +50,9 @@ public class Main extends Application {
         PointsDisplay pointsDisplay = new PointsDisplay();
         root.getChildren().add(pointsDisplay);
 
+        TimeDisplay timeDisplay = new TimeDisplay(Constants.WINDOW_WIDTH);
+        root.getChildren().add(timeDisplay);
+
         AnimationTimer timer = new AnimationTimer ( ) {
             private double last;
             @Override
@@ -121,6 +124,8 @@ public class Main extends Application {
                     }
                 }
 
+                // Timer
+                timeDisplay.update(dt);
 
                 hearts.update(player.getLives());
             }
