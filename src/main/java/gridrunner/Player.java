@@ -13,6 +13,7 @@ public class Player extends Polygon {
     private Translate position;
     private double centerX, centerY, radius;
     private double startX, startY;
+    private int points = 0;
 
     private int lives = 3;
 
@@ -143,10 +144,15 @@ public class Player extends Polygon {
         }
     }
 
+    public void addGamePoints(int value){
+        this.points += value;
+    }
+
     public double getCenterX() { return this.centerX; }
     public double getCenterY() { return this.centerY; }
     public double getRadius()  { return this.radius;  }
     public int getLives() { return this.lives; }
+    public int getGamePoints() { return this.points; }
 
     public boolean isAlive() { return this.lives > 0; }
 }

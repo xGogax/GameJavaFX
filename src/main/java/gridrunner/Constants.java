@@ -11,8 +11,8 @@ public class Constants {
             "#...#..............#",
             "#...#..............#",
             "#...########..E....#",
-            "#..................#",
-            "#..................#",
+            "#.....CC...........#",
+            "#.....CC...........#",
             "#.......########...#",
             "#...R...#..........#",
             "#.......#..........#",
@@ -50,6 +50,11 @@ public class Constants {
     public static final Color  SPINNER_FILL_COLOR     = Color.web("#aa44cc");
     public static final Color  SPINNER_STROKE_COLOR   = Color.web("#882299");
     public static final double SPINNER_ROTATION_SPEED = 120; // stepeni po sekundi
+
+    // Coin settings
+    public static final Color COIN_FILL_COLOR   = Color.web("#f5c542");
+    public static final Color COIN_STROKE_COLOR = Color.web("#d89b00");
+    public static final double NUMBER_OF_COINS = 5;
 
     public static final double PLAYER_RADIUS = Constants.TILE_SIZE * 0.75 / 2;
     public static final double PLAYER_SPEED  = 180; // pixels per second

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Level extends Group {
 
-    private List<Circle> coins;
+    private List<Coin> coins;
     private List<Rectangle> walls;
     private List<BlinkingWall> blinkingWalls;
     private List<Enemy> enemies;
@@ -28,8 +28,6 @@ public class Level extends Group {
         this.coins = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.spinners = new ArrayList<>();
-
-
 
         for ( int row = 0; row < map.length; row++ ) {
             for ( int column = 0; column < map[row].length ( ); column++ ) {
@@ -119,12 +117,38 @@ public class Level extends Group {
                 }
             }
         }
+
+        for (int i = 0; i < Constants.NUMBER_OF_COINS; i++) {
+
+            int x = (int) (Math.random() * map[0].length());
+            int y = (int) (Math.random() * map.length);
+
+            while (map[y].charAt(x) != '.') {
+                x = (int) (Math.random() * map[0].length());
+                y = (int) (Math.random() * map.length);
+            }
+
+            double coinX = x * tileSize + tileSize / 2.0;
+            double coinY = y * tileSize + tileSize / 2.0;
+
+            Coin coin = new Coin(
+                    coinX,
+                    coinY,
+                    tileSize * 0.2,
+                    Constants.COIN_FILL_COLOR,
+                    Constants.COIN_STROKE_COLOR
+            );
+
+            this.coins.add(coin);
+            super.getChildren().add(coin);
+        }
     }
 
     public List<Rectangle> getWalls ( ) { return Collections.unmodifiableList ( this.walls ); }
     public List<BlinkingWall> getBlinkingWalls () { return Collections.unmodifiableList ( this.blinkingWalls ); }
     public List<Enemy> getEnemies() { return Collections.unmodifiableList(this.enemies); }
     public List<Spinner> getSpinners() { return Collections.unmodifiableList(this.spinners); }
+    public List<Coin> getCoins() { return Collections.unmodifiableList(this.coins); }
 
     public Rectangle getGoal ( ) { return this.goal; }
 

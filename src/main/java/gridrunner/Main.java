@@ -47,6 +47,9 @@ public class Main extends Application {
         scene.setOnKeyPressed ( input::keyPressed );
         scene.setOnKeyReleased ( input::keyReleased );
 
+        PointsDisplay pointsDisplay = new PointsDisplay();
+        root.getChildren().add(pointsDisplay);
+
         AnimationTimer timer = new AnimationTimer ( ) {
             private double last;
             @Override
@@ -104,6 +107,20 @@ public class Main extends Application {
                         player.loseLife();
                     }
                 }
+
+                // Coins
+                for (Coin coin : level.getCoins()) {
+                    if (coin.isCollected()) {
+                        continue;
+                    }
+
+                    if (coin.overlapsPlayer(player)) {
+                        coin.collect();
+                        player.addGamePoints(1);
+                        pointsDisplay.update(player.getGamePoints());
+                    }
+                }
+
 
                 hearts.update(player.getLives());
             }
