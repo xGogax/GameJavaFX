@@ -8,19 +8,45 @@ import javafx.scene.transform.Translate;
 
 import java.util.List;
 
+
 public class Player extends Polygon {
+    public enum PlayerType{
+        FAST,
+        BALANCED,
+        TANK
+    }
 
     private Translate position;
     private double centerX, centerY, radius;
     private double startX, startY;
     private int points = 0;
 
+    private PlayerType type;
+    private double speedMultiplier;
+
     private int lives = 3;
 
     public Player(double radius, double positionX, double positionY,
-                  Color fillColor, Color strokeColor) {
+                  Color fillColor, Color strokeColor,
+                  PlayerType type) {
 
-        super(octagonPoints(radius));
+        super(shapeFor(type, radius));
+
+        this.type = type;
+        switch (type) {
+            case FAST:
+                this.speedMultiplier = 1.3;
+                this.lives = 2;
+                break;
+            case BALANCED:
+                this.speedMultiplier = 1.0;
+                this.lives = 3;
+                break;
+            case TANK:
+                this.speedMultiplier = 0.7;
+                this.lives = 5;
+                break;
+        }
 
         this.setFill(fillColor);
         this.setStroke(strokeColor);
@@ -45,6 +71,32 @@ public class Player extends Polygon {
         return pts;
     }
 
+    private static double[] square(double r) {
+        return new double[]{
+                -r, -r,
+                r, -r,
+                r, r,
+                -r, r
+        };
+    }
+
+    private static double[] triangle(double r) {
+        return new double[]{
+                0, -r,
+                -r, r,
+                r, r
+        };
+    }
+
+    private static double[] shapeFor(PlayerType type, double radius) {
+        return switch (type) {
+            case FAST -> triangle(radius);
+            case BALANCED -> octagonPoints(radius);
+            case TANK -> square(radius);
+            default -> octagonPoints(radius);
+        };
+    }
+
     public void resetPosition() {
         this.centerX = this.startX;
         this.centerY = this.startY;
@@ -56,10 +108,10 @@ public class Player extends Polygon {
         double dx = 0;
         double dy = 0;
 
-        if ( input.left ( ) )  { dx -= speed * dt; }
-        if ( input.right ( ) ) { dx += speed * dt; }
-        if ( input.up ( ) )    { dy -= speed * dt; }
-        if ( input.down ( ) )  { dy += speed * dt; }
+        if ( input.left ( ) )  { dx -= speed * speedMultiplier * dt; }
+        if ( input.right ( ) ) { dx += speed * speedMultiplier * dt; }
+        if ( input.up ( ) )    { dy -= speed * speedMultiplier * dt; }
+        if ( input.down ( ) )  { dy += speed * speedMultiplier * dt; }
         if ( input.R ( ) )     { resetPosition(); }
 
         // Keep consistent speed on diagonals

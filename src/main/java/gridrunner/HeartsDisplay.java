@@ -7,10 +7,11 @@ import javafx.scene.shape.SVGPath;
 
 public class HeartsDisplay extends Group {
 
-    private static final int MAX_LIVES = 3;
+    private static int MAX_LIVES;
     private SVGPath[] hearts;
 
-    public HeartsDisplay(double windowWidth) {
+    public HeartsDisplay(double windowWidth, int maxLives) {
+        this.MAX_LIVES = maxLives;
         this.hearts = new SVGPath[MAX_LIVES];
 
         for (int i = 0; i < MAX_LIVES; i++) {

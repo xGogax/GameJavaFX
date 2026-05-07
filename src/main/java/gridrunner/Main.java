@@ -34,11 +34,12 @@ public class Main extends Application {
                level.getStartX ( ) + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
                level.getStartY ( ) + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
                Constants.PLAYER_FILL_COLOR,
-               Constants.PLAYER_STROKE_COLOR
+               Constants.PLAYER_STROKE_COLOR,
+                Player.PlayerType.BALANCED
         );
         root.getChildren ( ).add ( player );
 
-        HeartsDisplay hearts = new HeartsDisplay(Constants.WINDOW_WIDTH);
+        HeartsDisplay hearts = new HeartsDisplay(Constants.WINDOW_WIDTH, player.getLives());
         root.getChildren().add(hearts);
 
         Scene scene = new Scene ( root, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT );
