@@ -2,6 +2,7 @@ package gridrunner;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
@@ -12,10 +13,11 @@ import java.util.List;
 
 public class Level extends Group {
 
+    private List<Circle> coins;
     private List<Rectangle> walls;
     private List<BlinkingWall> blinkingWalls;
-    private List<Enemy> enemies = new ArrayList<>();
-    private List<Spinner> spinners = new ArrayList<>();
+    private List<Enemy> enemies;
+    private List<Spinner> spinners;
     private Rectangle goal;
     public double startX, startY;
     private Rectangle start;
@@ -23,6 +25,11 @@ public class Level extends Group {
     public Level ( String map[], double tileSize, Color wallFillColor, Color wallStrokeColor, Color startColor, Color goalColor ) {
         this.walls = new ArrayList<> ( );
         this.blinkingWalls = new ArrayList<>();
+        this.coins = new ArrayList<>();
+        this.enemies = new ArrayList<>();
+        this.spinners = new ArrayList<>();
+
+
 
         for ( int row = 0; row < map.length; row++ ) {
             for ( int column = 0; column < map[row].length ( ); column++ ) {

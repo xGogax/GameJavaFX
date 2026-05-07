@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.ImagePattern;
 import javafx.stage.Stage;
 
@@ -37,6 +38,9 @@ public class Main extends Application {
         );
         root.getChildren ( ).add ( player );
 
+        HeartsDisplay hearts = new HeartsDisplay(Constants.WINDOW_WIDTH);
+        root.getChildren().add(hearts);
+
         Scene scene = new Scene ( root, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT );
         scene.setFill(new ImagePattern(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("ground.jpg")))));
 
@@ -54,25 +58,54 @@ public class Main extends Application {
                 double dt = ( now - this.last ) / 10e8;
                 this.last = now;
 
-                if ( player.touches ( level.getGoal ( ) ) ) {
+                // Game over provera
+                if (!player.isAlive()) {
+                    this.stop();
+                    root.getChildren().add(new GameOverlay(
+                            "Game Over",
+                            Color.web("#ee2244"),
+                            Constants.WINDOW_WIDTH,
+                            Constants.WINDOW_HEIGHT
+                    ));
                     return;
                 }
 
+                // Win provera
+                if (player.touches(level.getGoal())) {
+                    this.stop();
+                    root.getChildren().add(new GameOverlay(
+                            "You Win!",
+                            Color.web("#44dd88"),
+                            Constants.WINDOW_WIDTH,
+                            Constants.WINDOW_HEIGHT
+                    ));
+                    return;
+                }
+
+                // Provera da li je igrac vec na cilju
+                if (player.touches(level.getGoal())) return;
+
                 player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls(), level.getBlinkingWalls() );
 
+                // Provera sudara sa neprijateljima
                 for (Enemy enemy : level.getEnemies()) {
                     enemy.update(dt, level.getWalls());
                     if (enemy.overlapsPlayer(player)) {
                         player.resetPosition();
+                        player.loseLife();
                     }
                 }
 
+                // Provera sudara sa spinnerima
                 for (Spinner spinner : level.getSpinners()) {
                     spinner.update(dt);
                     if (spinner.overlapsPlayer(player)) {
                         player.resetPosition();
+                        player.loseLife();
                     }
                 }
+
+                hearts.update(player.getLives());
             }
         };
         timer.start ( );

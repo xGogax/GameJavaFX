@@ -14,6 +14,8 @@ public class Player extends Polygon {
     private double centerX, centerY, radius;
     private double startX, startY;
 
+    private int lives = 3;
+
     public Player(double radius, double positionX, double positionY,
                   Color fillColor, Color strokeColor) {
 
@@ -133,7 +135,18 @@ public class Player extends Polygon {
         return horizontal && vertical;
     }
 
+    public void loseLife() {
+        if (this.lives > 0) {
+            this.lives--;
+            this.centerX = this.startX;
+            this.centerY = this.startY;
+        }
+    }
+
     public double getCenterX() { return this.centerX; }
     public double getCenterY() { return this.centerY; }
     public double getRadius()  { return this.radius;  }
+    public int getLives() { return this.lives; }
+
+    public boolean isAlive() { return this.lives > 0; }
 }

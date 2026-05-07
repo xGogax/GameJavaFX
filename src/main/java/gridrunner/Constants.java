@@ -49,7 +49,7 @@ public class Constants {
     // Spinner settings
     public static final Color  SPINNER_FILL_COLOR     = Color.web("#aa44cc");
     public static final Color  SPINNER_STROKE_COLOR   = Color.web("#882299");
-    public static final double SPINNER_ROTATION_SPEED = 50; // stepeni po sekundi
+    public static final double SPINNER_ROTATION_SPEED = 120; // stepeni po sekundi
 
     public static final double PLAYER_RADIUS = Constants.TILE_SIZE * 0.75 / 2;
     public static final double PLAYER_SPEED  = 180; // pixels per second
