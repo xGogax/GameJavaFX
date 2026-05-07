@@ -44,7 +44,7 @@ public class Constants {
     public static final Color  ENEMY_FILL_COLOR   = Color.web("#cc4400");
     public static final Color  ENEMY_STROKE_COLOR = Color.web("#aa2200");
     public static final double ENEMY_SPEED        = 120;
-    public static final double ENEMY_SIZE         = Constants.TILE_SIZE * 0.75;
+    public static final double ENEMY_SIZE         = Constants.TILE_SIZE * 0.65;
 
     // Spinner settings
     public static final Color  SPINNER_FILL_COLOR     = Color.web("#aa44cc");
