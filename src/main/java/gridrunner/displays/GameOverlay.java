@@ -1,4 +1,4 @@
-package gridrunner;
+package gridrunner.displays;
 
 import javafx.geometry.VPos;
 import javafx.scene.Group;

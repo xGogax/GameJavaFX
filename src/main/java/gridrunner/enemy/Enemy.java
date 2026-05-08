@@ -1,5 +1,6 @@
-package gridrunner;
+package gridrunner.enemy;
 
+import gridrunner.Player;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 

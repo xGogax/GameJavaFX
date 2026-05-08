@@ -7,17 +7,17 @@ public class Constants {
             "####################",
             "#SE.......B........#",
             "#.........B.....R..#",
-            "#...########.......#",
-            "#...#..............#",
-            "#...#..............#",
-            "#...########..E....#",
+            "#XXX########.......#",
+            "#XXX#.....YY.......#",
+            "#XXX#.....YY.......#",
+            "#XXX########..E....#",
             "#.....CC...........#",
             "#.....CC...........#",
             "#.......########...#",
-            "#...R...#..........#",
-            "#.......#..........#",
+            "#...R...#.....YY...#",
+            "#.......#.....YY...#",
             "#.......########...#",
-            "#................G.#",
+            "#.................G#",
             "####################"
     };
 
@@ -55,6 +55,14 @@ public class Constants {
     public static final Color COIN_FILL_COLOR   = Color.web("#f5c542");
     public static final Color COIN_STROKE_COLOR = Color.web("#d89b00");
     public static final double NUMBER_OF_COINS = 5;
+
+    // Speed Booster settings
+    public static final Color  SPEED_BOOSTER_FILL_COLOR   = Color.web("#44ccaa");
+    public static final Color  SPEED_BOOSTER_STROKE_COLOR = Color.web("#229977");
+
+    // Slow Booster settings
+    public static final Color  SLOW_DOWN_FILL_COLOR   = Color.web("#cc4444");
+    public static final Color  SLOW_DOWN_STROKE_COLOR = Color.web("#992222");
 
     public static final double PLAYER_RADIUS = Constants.TILE_SIZE * 0.75 / 2;
     public static final double PLAYER_SPEED  = 180; // pixels per second

@@ -1,4 +1,4 @@
-package gridrunner;
+package gridrunner.displays;
 
 import javafx.scene.Group;
 import javafx.scene.paint.Color;

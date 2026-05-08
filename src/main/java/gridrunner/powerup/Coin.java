@@ -1,5 +1,6 @@
-package gridrunner;
+package gridrunner.powerup;
 
+import gridrunner.Player;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.transform.Translate;

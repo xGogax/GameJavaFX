@@ -1,7 +1,7 @@
 package gridrunner;
 
+import gridrunner.tiles.BlinkingWall;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Translate;
@@ -24,11 +24,12 @@ public class Player extends Polygon {
     private PlayerType type;
     private double speedMultiplier;
 
-    private int lives = 3;
+    private double tileSpeed = 1;
 
-    public Player(double radius, double positionX, double positionY,
-                  Color fillColor, Color strokeColor,
-                  PlayerType type) {
+    private int lives;
+    private int maxLives;
+
+    public Player(double radius, double positionX, double positionY, PlayerType type) {
 
         super(shapeFor(type, radius));
 
@@ -37,19 +38,23 @@ public class Player extends Polygon {
             case FAST:
                 this.speedMultiplier = 1.3;
                 this.lives = 2;
+                this.setFill(Color.LIGHTCORAL);
+                this.setStroke(Color.CORAL);
                 break;
             case BALANCED:
                 this.speedMultiplier = 1.0;
                 this.lives = 3;
+                this.setFill(Color.LIGHTBLUE);
+                this.setStroke(Color.DARKBLUE);
                 break;
             case TANK:
                 this.speedMultiplier = 0.7;
                 this.lives = 5;
+                this.setFill(Color.LIGHTGREEN);
+                this.setStroke(Color.DARKGREEN);
                 break;
         }
-
-        this.setFill(fillColor);
-        this.setStroke(strokeColor);
+        this.maxLives = this.lives;
         this.setStrokeWidth(radius * 0.03);
 
         this.centerX = positionX + radius;
@@ -108,10 +113,10 @@ public class Player extends Polygon {
         double dx = 0;
         double dy = 0;
 
-        if ( input.left ( ) )  { dx -= speed * speedMultiplier * dt; }
-        if ( input.right ( ) ) { dx += speed * speedMultiplier * dt; }
-        if ( input.up ( ) )    { dy -= speed * speedMultiplier * dt; }
-        if ( input.down ( ) )  { dy += speed * speedMultiplier * dt; }
+        if ( input.left ( ) )  { dx -= speed * speedMultiplier * tileSpeed * dt; }
+        if ( input.right ( ) ) { dx += speed * speedMultiplier * tileSpeed * dt; }
+        if ( input.up ( ) )    { dy -= speed * speedMultiplier * tileSpeed * dt; }
+        if ( input.down ( ) )  { dy += speed * speedMultiplier * tileSpeed * dt; }
         if ( input.R ( ) )     { resetPosition(); }
 
         // Keep consistent speed on diagonals
@@ -195,6 +200,12 @@ public class Player extends Polygon {
         }
     }
 
+    public void addLife() {
+        if (this.lives < this.maxLives) {
+            this.lives++;
+        }
+    }
+
     public void addGamePoints(int value){
         this.points += value;
     }
@@ -204,6 +215,8 @@ public class Player extends Polygon {
     public double getRadius()  { return this.radius;  }
     public int getLives() { return this.lives; }
     public int getGamePoints() { return this.points; }
+    public void setTileSpeed(double multiplier) { this.tileSpeed = multiplier; }
+    public int getMaxLives() { return this.maxLives; }
 
     public boolean isAlive() { return this.lives > 0; }
 }

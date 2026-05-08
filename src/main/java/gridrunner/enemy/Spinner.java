@@ -1,5 +1,7 @@
-package gridrunner;
+package gridrunner.enemy;
 
+import gridrunner.Constants;
+import gridrunner.Player;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;

@@ -1,4 +1,4 @@
-package gridrunner;
+package gridrunner.tiles;
 
 import javafx.animation.FadeTransition;
 import javafx.animation.PauseTransition;

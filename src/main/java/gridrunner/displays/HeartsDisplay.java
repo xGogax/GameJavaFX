@@ -1,8 +1,8 @@
-package gridrunner;
+package gridrunner.displays;
 
+import gridrunner.Constants;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.FillRule;
 import javafx.scene.shape.SVGPath;
 
 public class HeartsDisplay extends Group {

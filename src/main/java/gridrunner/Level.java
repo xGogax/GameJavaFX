@@ -1,10 +1,14 @@
 package gridrunner;
 
+import gridrunner.enemy.Enemy;
+import gridrunner.enemy.Spinner;
+import gridrunner.powerup.Coin;
+import gridrunner.tiles.BlinkingWall;
+import gridrunner.tiles.SlowBoost;
+import gridrunner.tiles.SpeedBoost;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 import java.util.ArrayList;
@@ -13,14 +17,16 @@ import java.util.List;
 
 public class Level extends Group {
 
-    private List<Coin> coins;
-    private List<Rectangle> walls;
-    private List<BlinkingWall> blinkingWalls;
-    private List<Enemy> enemies;
-    private List<Spinner> spinners;
-    private Rectangle goal;
+    private List<Coin> coins;                       // spawning randomly
+    private List<Rectangle> walls;                  // #
+    private List<SpeedBoost> speedBoosters;         // X
+    private List<SlowBoost> slowBoosters;              // Y
+    private List<BlinkingWall> blinkingWalls;       // B
+    private List<Enemy> enemies;                    // E
+    private List<Spinner> spinners;                 // R
+    private Rectangle goal;                         // G
     public double startX, startY;
-    private Rectangle start;
+    private Rectangle start;                        // S
 
     public Level ( String map[], double tileSize, Color wallFillColor, Color wallStrokeColor, Color startColor, Color goalColor ) {
         this.walls = new ArrayList<> ( );
@@ -28,6 +34,8 @@ public class Level extends Group {
         this.coins = new ArrayList<>();
         this.enemies = new ArrayList<>();
         this.spinners = new ArrayList<>();
+        this.speedBoosters = new ArrayList<>();
+        this.slowBoosters = new ArrayList<>();
 
         for ( int row = 0; row < map.length; row++ ) {
             for ( int column = 0; column < map[row].length ( ); column++ ) {
@@ -48,6 +56,25 @@ public class Level extends Group {
 
                         super.getChildren ( ).add ( wall );
 
+                        break;
+                    }
+
+                    case 'X': {
+                        SpeedBoost boost = new SpeedBoost(
+                                positionX, positionY, tileSize,
+                                Constants.SPEED_BOOSTER_FILL_COLOR, Constants.SPEED_BOOSTER_STROKE_COLOR
+                        );
+                        this.speedBoosters.add(boost);
+                        super.getChildren().add(boost);
+                        break;
+                    }
+                    case 'Y': {
+                        SlowBoost boost = new SlowBoost(
+                                positionX, positionY, tileSize,
+                                Constants.SLOW_DOWN_FILL_COLOR, Constants.SLOW_DOWN_STROKE_COLOR
+                        );
+                        this.slowBoosters.add(boost);
+                        super.getChildren().add(boost);
                         break;
                     }
 
@@ -118,6 +145,13 @@ public class Level extends Group {
             }
         }
 
+        for (Enemy enemy : enemies) {
+            enemy.toFront();
+        }
+        for (Spinner spinner : spinners) {
+            spinner.toFront();
+        }
+
         for (int i = 0; i < Constants.NUMBER_OF_COINS; i++) {
 
             int x = (int) (Math.random() * map[0].length());
@@ -149,6 +183,8 @@ public class Level extends Group {
     public List<Enemy> getEnemies() { return Collections.unmodifiableList(this.enemies); }
     public List<Spinner> getSpinners() { return Collections.unmodifiableList(this.spinners); }
     public List<Coin> getCoins() { return Collections.unmodifiableList(this.coins); }
+    public List<SpeedBoost> getSpeedBoosters() { return Collections.unmodifiableList(this.speedBoosters); }
+    public List<SlowBoost> getSlowBoosters() { return Collections.unmodifiableList(this.slowBoosters); }
 
     public Rectangle getGoal ( ) { return this.goal; }
 

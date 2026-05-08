@@ -1,5 +1,17 @@
 package gridrunner;
 
+import gridrunner.displays.GameOverlay;
+import gridrunner.displays.HeartsDisplay;
+import gridrunner.displays.PointsDisplay;
+import gridrunner.displays.TimeDisplay;
+import gridrunner.enemy.Enemy;
+import gridrunner.enemy.Spinner;
+import gridrunner.menu.GroupBalanced;
+import gridrunner.menu.GroupFast;
+import gridrunner.menu.GroupTank;
+import gridrunner.powerup.Coin;
+import gridrunner.tiles.SlowBoost;
+import gridrunner.tiles.SpeedBoost;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.scene.Group;
@@ -14,12 +26,34 @@ import java.util.Objects;
 public class Main extends Application {
 
     @Override
-    public void start ( Stage stage ) {
-        Group root = new Group ( );
+    public void start(Stage stage) {
+        Group menuRoot = new Group();
+        Scene menuScene = new Scene(menuRoot, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
 
+        double buttonHeight = Constants.WINDOW_HEIGHT;
+        double buttonWidth = Constants.WINDOW_WIDTH / 3.0;
+
+        GroupFast fastGroup = new GroupFast(buttonWidth, buttonHeight, stage);
+        fastGroup.setLayoutX(0);
+
+        GroupBalanced balancedGroup = new GroupBalanced(buttonWidth, buttonHeight, stage);
+        balancedGroup.setLayoutX(buttonWidth);
+
+        GroupTank tankGroup = new GroupTank(buttonWidth, buttonHeight, stage);
+        tankGroup.setLayoutX(2 * buttonWidth);
+
+        menuRoot.getChildren().addAll(fastGroup, balancedGroup, tankGroup);
+
+        stage.setScene(menuScene);
+        stage.setTitle("Izaberi igrača");
+        stage.show();
+    }
+
+    public void startGame(Stage stage, Player.PlayerType type) {
+        Group root = new Group();
         Input input = new Input();
 
-        Level level = new Level (
+        Level level = new Level(
                 Constants.MAP,
                 Constants.TILE_SIZE,
                 Constants.WALL_FILL_COLOR,
@@ -27,17 +61,15 @@ public class Main extends Application {
                 Constants.START_COLOR,
                 Constants.GOAL_COLOR
         );
-        root.getChildren ( ).add ( level );
+        root.getChildren().add(level);
 
-        Player player = new Player (
-               Constants.PLAYER_RADIUS,
-               level.getStartX ( ) + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
-               level.getStartY ( ) + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
-               Constants.PLAYER_FILL_COLOR,
-               Constants.PLAYER_STROKE_COLOR,
-                Player.PlayerType.BALANCED
+        Player player = new Player(
+                Constants.PLAYER_RADIUS,
+                level.getStartX() + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
+                level.getStartY() + Constants.TILE_SIZE / 2. - Constants.PLAYER_RADIUS,
+                type
         );
-        root.getChildren ( ).add ( player );
+        root.getChildren().add(player);
 
         HeartsDisplay hearts = new HeartsDisplay(Constants.WINDOW_WIDTH, player.getLives());
         root.getChildren().add(hearts);
@@ -53,6 +85,8 @@ public class Main extends Application {
 
         TimeDisplay timeDisplay = new TimeDisplay(Constants.WINDOW_WIDTH);
         root.getChildren().add(timeDisplay);
+
+        gridrunner.HeartSpawner heartSpawner = new gridrunner.HeartSpawner(root, Constants.MAP, Constants.TILE_SIZE);
 
         AnimationTimer timer = new AnimationTimer ( ) {
             private double last;
@@ -92,7 +126,7 @@ public class Main extends Application {
                 // Provera da li je igrac vec na cilju
                 if (player.touches(level.getGoal())) return;
 
-                player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls(), level.getBlinkingWalls() );
+                player.update ( dt, Constants.PLAYER_SPEED, input, level.getWalls(), level.getBlinkingWalls());
 
                 // Provera sudara sa neprijateljima
                 for (Enemy enemy : level.getEnemies()) {
@@ -124,6 +158,27 @@ public class Main extends Application {
                         pointsDisplay.update(player.getGamePoints());
                     }
                 }
+
+                double multiplier = 1.0;
+                //Provera da li udara SpeedBoost
+                for (SpeedBoost boost : level.getSpeedBoosters()) {
+                    if (boost.overlapsPlayer(player)) {
+                        multiplier = 1.5;
+                        break;
+                    }
+                }
+                //Provera da li udara SlowBoost
+                for (SlowBoost boost : level.getSlowBoosters()) {
+                    if (boost.overlapsPlayer(player)) {
+                        multiplier = 0.5;
+                        break;
+                    }
+                }
+
+                player.setTileSpeed(multiplier);
+
+                // Heart Spawner
+                heartSpawner.update(dt, player);
 
                 // Timer
                 timeDisplay.update(dt);
