@@ -9,6 +9,7 @@ import gridrunner.enemy.Spinner;
 import gridrunner.menu.GroupBalanced;
 import gridrunner.menu.GroupFast;
 import gridrunner.menu.GroupTank;
+import gridrunner.menu.LevelSelect;
 import gridrunner.powerup.Coin;
 import gridrunner.tiles.SlowBoost;
 import gridrunner.tiles.SpeedBoost;
@@ -27,11 +28,23 @@ public class Main extends Application {
 
     @Override
     public void start(Stage stage) {
-        Group menuRoot = new Group();
-        Scene menuScene = new Scene(menuRoot, Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
+        Group levelRoot = new Group();
+        levelRoot.getChildren().add(new LevelSelect(Constants.MENU_WIDTH, Constants.MENU_HEIGHT, stage));
 
-        double buttonHeight = Constants.WINDOW_HEIGHT;
-        double buttonWidth = Constants.WINDOW_WIDTH / 3.0;
+        Scene levelScene = new Scene(levelRoot, Constants.MENU_WIDTH, Constants.MENU_HEIGHT);
+
+        stage.setScene(levelScene);
+        stage.setTitle("Izaberi mapu");
+        stage.setResizable(false);
+        stage.show();
+    }
+
+    public void showClassSelect(Stage stage) {
+        Group menuRoot = new Group();
+        Scene menuScene = new Scene(menuRoot, Constants.MENU_WIDTH, Constants.MENU_HEIGHT);
+
+        double buttonHeight = Constants.MENU_HEIGHT;
+        double buttonWidth = Constants.MENU_WIDTH / 3.0;
 
         GroupFast fastGroup = new GroupFast(buttonWidth, buttonHeight, stage);
         fastGroup.setLayoutX(0);
@@ -46,6 +59,7 @@ public class Main extends Application {
 
         stage.setScene(menuScene);
         stage.setTitle("Izaberi igrača");
+        stage.setResizable(false);
         stage.show();
     }
 

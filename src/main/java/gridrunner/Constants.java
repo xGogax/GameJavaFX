@@ -2,29 +2,23 @@ package gridrunner;
 
 import javafx.scene.paint.Color;
 
+import java.util.Map;
+
 public class Constants {
-    public static final String[] MAP = {
-            "####################",
-            "#SE.......B........#",
-            "#.........B.....R..#",
-            "#XXX########.......#",
-            "#XXX#.....YY.......#",
-            "#XXX#.....YY.......#",
-            "#XXX########..E....#",
-            "#.....CC...........#",
-            "#.....CC...........#",
-            "#.......########...#",
-            "#...R...#.....YY...#",
-            "#.......#.....YY...#",
-            "#.......########...#",
-            "#.................G#",
-            "####################"
-    };
+    public static void updateWindowSize() {
+        WINDOW_WIDTH  = MAP[0].length() * TILE_SIZE;
+        WINDOW_HEIGHT = MAP.length * TILE_SIZE;
+    }
+
+    public static String[] MAP;
 
     public static final int TILE_SIZE = 40;
 
-    public static final int WINDOW_WIDTH  = Constants.MAP[0].length ( ) * Constants.TILE_SIZE;
-    public static final int WINDOW_HEIGHT = Constants.MAP.length * Constants.TILE_SIZE;
+    public static int WINDOW_WIDTH;
+    public static int WINDOW_HEIGHT;
+
+    public static final int MENU_WIDTH = 900;
+    public static final int MENU_HEIGHT = 600;
 
     public static final Color BACKGROUND_COLOR    = Color.web ( "#c8c8c8" );
     public static final Color START_COLOR         = Color.web ( "#88c8ff" );
