@@ -29,6 +29,10 @@ public class Player extends Polygon {
     private int lives;
     private int maxLives;
 
+    private boolean shielded = false;
+    private double shieldTimeRemaining = 0;
+    private static final double SHIELD_DURATION = 5.0; // sekundi trajanja stita
+
     public Player(double radius, double positionX, double positionY, PlayerType type) {
 
         super(shapeFor(type, radius));
@@ -110,6 +114,8 @@ public class Player extends Polygon {
     }
 
     public void update(double dt, double speed, Input input, List<Rectangle> walls, List<BlinkingWall> blinkingWalls) {
+        updateShield(dt);
+
         double dx = 0;
         double dy = 0;
 
@@ -203,6 +209,23 @@ public class Player extends Polygon {
     public void addLife() {
         if (this.lives < this.maxLives) {
             this.lives++;
+        }
+    }
+
+    public void activateShield() {
+        this.shielded = true;
+        this.shieldTimeRemaining = SHIELD_DURATION;
+    }
+
+    public boolean isShielded() { return this.shielded; }
+
+    private void updateShield(double dt) {
+        if (this.shielded) {
+            this.shieldTimeRemaining -= dt;
+            if (this.shieldTimeRemaining <= 0) {
+                this.shielded = false;
+                this.shieldTimeRemaining = 0;
+            }
         }
     }
 

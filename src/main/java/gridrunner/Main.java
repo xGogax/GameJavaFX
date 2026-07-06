@@ -100,7 +100,8 @@ public class Main extends Application {
         TimeDisplay timeDisplay = new TimeDisplay(Constants.WINDOW_WIDTH);
         root.getChildren().add(timeDisplay);
 
-        gridrunner.HeartSpawner heartSpawner = new gridrunner.HeartSpawner(root, Constants.MAP, Constants.TILE_SIZE);
+        gridrunner.powerup.HeartSpawner heartSpawner = new gridrunner.powerup.HeartSpawner(root, Constants.MAP, Constants.TILE_SIZE);
+        gridrunner.powerup.ShieldSpawner shieldSpawner = new gridrunner.powerup.ShieldSpawner(root, Constants.MAP, Constants.TILE_SIZE);
 
         AnimationTimer timer = new AnimationTimer ( ) {
             private double last;
@@ -145,7 +146,7 @@ public class Main extends Application {
                 // Provera sudara sa neprijateljima
                 for (Enemy enemy : level.getEnemies()) {
                     enemy.update(dt, level.getWalls());
-                    if (enemy.overlapsPlayer(player)) {
+                    if (enemy.overlapsPlayer(player) && !player.isShielded()) {
                         player.resetPosition();
                         player.loseLife();
                     }
@@ -154,7 +155,7 @@ public class Main extends Application {
                 // Provera sudara sa spinnerima
                 for (Spinner spinner : level.getSpinners()) {
                     spinner.update(dt);
-                    if (spinner.overlapsPlayer(player)) {
+                    if (spinner.overlapsPlayer(player) && !player.isShielded()) {
                         player.resetPosition();
                         player.loseLife();
                     }
@@ -193,6 +194,9 @@ public class Main extends Application {
 
                 // Heart Spawner
                 heartSpawner.update(dt, player);
+
+                // Shield Spawner
+                shieldSpawner.update(dt, player);
 
                 // Timer
                 timeDisplay.update(dt);
