@@ -6,6 +6,8 @@ import gridrunner.displays.PointsDisplay;
 import gridrunner.displays.TimeDisplay;
 import gridrunner.enemy.Enemy;
 import gridrunner.enemy.Spinner;
+import gridrunner.enemy.turret.Projectile;
+import gridrunner.enemy.turret.Turret;
 import gridrunner.menu.GroupBalanced;
 import gridrunner.menu.GroupFast;
 import gridrunner.menu.GroupTank;
@@ -158,6 +160,23 @@ public class Main extends Application {
                     if (spinner.overlapsPlayer(player) && !player.isShielded()) {
                         player.resetPosition();
                         player.loseLife();
+                    }
+                }
+
+                // Provera sudara sa projektilima iz topova
+                for (Turret turret : level.getTurrets()) {
+                    turret.update(dt, level.getWalls());
+                    for (Projectile p : turret.getProjectiles()) {
+                        if (p.overlapsPlayer(player) && !player.isShielded()) {
+                            this.stop();
+                            root.getChildren().add(new GameOverlay(
+                                    "Game Over",
+                                    Color.web("#ee2244"),
+                                    Constants.WINDOW_WIDTH,
+                                    Constants.WINDOW_HEIGHT
+                            ));
+                            return;
+                        }
                     }
                 }
 

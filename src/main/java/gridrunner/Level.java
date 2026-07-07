@@ -2,6 +2,7 @@ package gridrunner;
 
 import gridrunner.enemy.Enemy;
 import gridrunner.enemy.Spinner;
+import gridrunner.enemy.turret.Turret;
 import gridrunner.powerup.Coin;
 import gridrunner.tiles.BlinkingWall;
 import gridrunner.tiles.SlowBoost;
@@ -24,6 +25,7 @@ public class Level extends Group {
     private List<BlinkingWall> blinkingWalls;       // B
     private List<Enemy> enemies;                    // E
     private List<Spinner> spinners;                 // R
+    private List<Turret> turrets;                   // T
     private Rectangle goal;                         // G
     public double startX, startY;
     private Rectangle start;                        // S
@@ -36,6 +38,7 @@ public class Level extends Group {
         this.spinners = new ArrayList<>();
         this.speedBoosters = new ArrayList<>();
         this.slowBoosters = new ArrayList<>();
+        this.turrets = new ArrayList<>();
 
         for ( int row = 0; row < map.length; row++ ) {
             for ( int column = 0; column < map[row].length ( ); column++ ) {
@@ -68,6 +71,7 @@ public class Level extends Group {
                         super.getChildren().add(boost);
                         break;
                     }
+
                     case 'Y': {
                         SlowBoost boost = new SlowBoost(
                                 positionX, positionY, tileSize,
@@ -130,6 +134,28 @@ public class Level extends Group {
 
                         break;
                     }
+
+                    case 'T': {
+                        Turret.Direction dir = determineTurretDirection(map, row, column);
+
+                        Turret turret = new Turret(
+                                positionX, positionY, tileSize,
+                                Constants.TURRET_FILL_COLOR, Constants.TURRET_STROKE_COLOR,
+                                dir,
+                                Constants.TURRET_FIRE_INTERVAL,
+                                Constants.PROJECTILE_SPEED,
+                                Constants.PROJECTILE_FILL_COLOR, Constants.PROJECTILE_STROKE_COLOR,
+                                this
+                        );
+
+                        this.turrets.add(turret);
+                        this.walls.add(turret); // ponasa se kao solidan zid za igraca
+
+                        super.getChildren().add(turret);
+
+                        break;
+                    }
+
                     case 'G':{
                         this.goal = new Rectangle ( tileSize, tileSize );
                         this.goal.getTransforms ( ).addAll (
@@ -178,6 +204,15 @@ public class Level extends Group {
         }
     }
 
+    private Turret.Direction determineTurretDirection(String[] map, int row, int col) {
+        if (col + 1 < map[row].length() && map[row].charAt(col + 1) == '.') return Turret.Direction.RIGHT;
+        if (col - 1 >= 0 && map[row].charAt(col - 1) == '.') return Turret.Direction.LEFT;
+        if (row + 1 < map.length && col < map[row + 1].length() && map[row + 1].charAt(col) == '.') return Turret.Direction.DOWN;
+        if (row - 1 >= 0 && col < map[row - 1].length() && map[row - 1].charAt(col) == '.') return Turret.Direction.UP;
+
+        return Turret.Direction.RIGHT;
+    }
+
     public List<Rectangle> getWalls ( ) { return Collections.unmodifiableList ( this.walls ); }
     public List<BlinkingWall> getBlinkingWalls () { return Collections.unmodifiableList ( this.blinkingWalls ); }
     public List<Enemy> getEnemies() { return Collections.unmodifiableList(this.enemies); }
@@ -185,6 +220,7 @@ public class Level extends Group {
     public List<Coin> getCoins() { return Collections.unmodifiableList(this.coins); }
     public List<SpeedBoost> getSpeedBoosters() { return Collections.unmodifiableList(this.speedBoosters); }
     public List<SlowBoost> getSlowBoosters() { return Collections.unmodifiableList(this.slowBoosters); }
+    public List<Turret> getTurrets() { return Collections.unmodifiableList(this.turrets); }
 
     public Rectangle getGoal ( ) { return this.goal; }
 

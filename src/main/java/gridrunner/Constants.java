@@ -58,6 +58,14 @@ public class Constants {
     public static final Color  SLOW_DOWN_FILL_COLOR   = Color.web("#cc4444");
     public static final Color  SLOW_DOWN_STROKE_COLOR = Color.web("#992222");
 
+    // Turret settings
+    public static final Color  TURRET_FILL_COLOR      = Color.web("#555555");
+    public static final Color  TURRET_STROKE_COLOR     = Color.web("#333333");
+    public static final Color  PROJECTILE_FILL_COLOR   = Color.web("#ff3333");
+    public static final Color  PROJECTILE_STROKE_COLOR = Color.web("#aa0000");
+    public static final double TURRET_FIRE_INTERVAL    = 2.5;  // sekundi izmedju hitaca
+    public static final double PROJECTILE_SPEED        = 200;  // pixels per second
+
     public static final double PLAYER_RADIUS = Constants.TILE_SIZE * 0.75 / 2;
     public static final double PLAYER_SPEED  = 180; // pixels per second
 }
