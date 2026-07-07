@@ -13,7 +13,6 @@ public class Coin extends Circle {
 
     public Coin(double centerX, double centerY, double radius,
                 Color fillColor, Color strokeColor) {
-
         super(radius);
 
         this.centerX = centerX;

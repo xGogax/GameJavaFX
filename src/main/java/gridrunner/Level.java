@@ -149,7 +149,7 @@ public class Level extends Group {
                         );
 
                         this.turrets.add(turret);
-                        this.walls.add(turret); // ponasa se kao solidan zid za igraca
+                        this.walls.add(turret.getHitbox());
 
                         super.getChildren().add(turret);
 
